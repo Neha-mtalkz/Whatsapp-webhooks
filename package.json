@@ -1,0 +1,18 @@
+{
+  "name": "fastify_demo",
+  "version": "1.0.0",
+  "description": "this is a demo for fastify",
+  "main": "index.js",
+  "scripts": {
+    "test": "y",
+    "start": "node index.js",
+    "server": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.2.1",
+    "nodemon": "^2.0.19",
+    "request": "^2.88.2"
+  }
+}
