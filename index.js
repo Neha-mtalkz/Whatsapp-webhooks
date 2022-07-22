@@ -12,8 +12,6 @@ fastify.get('/', (request, reply) => {
   reply.send({ hello: 'world' })
 })
 
-// https://nehatesting.free.beeceptor.com
-
 // Run the server!
 fastify.listen({ port: 3000 }, (err, address) => {
   if (err) throw err
