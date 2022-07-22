@@ -2,20 +2,29 @@ const fastify = require('fastify')({
   logger: true
 })
 const request = require("request");
-const config = require('./config');
-const { url } = config;
+const { url, key, source } = require('./config');
 
+//WhatsApp cloud API .
 fastify.post("/api/whatsapp", (req, res) => {
   try {
     let event = req.body['data_body']['events']['eventType'];
-    if (event == "User initiated") {
-      let sendData = req.body['data_body']['eventContent']['message']
+    //checking eventType is user initiative or not .
+    if (event === "User initiated") {
+      //defining the response body .
+      let bodyData = {
+        "message": req.body['data_body']['eventContent']['message']['text']['body'],
+        "phone": req.body['data_body']['eventContent']['message']['from'],
+        "source": source,
+        "key": key
+      }
+      console.log(bodyData)
       const options = {
         url: url,
         json: true,
-        body: sendData
+        body: bodyData
       };
-      request.post(options, (err, res, body) => {
+      // Whatsapp webhook target API
+      request.post(options, (err, response, body) => {
         if (err) {
           return console.log(err);
         }
@@ -26,7 +35,6 @@ fastify.post("/api/whatsapp", (req, res) => {
     }
   }
   catch (err) {
-    console.log(err)
     return err;
   }
 })
