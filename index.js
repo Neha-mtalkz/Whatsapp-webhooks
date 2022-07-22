@@ -5,7 +5,7 @@ const request = require("request");
 const config = require('./config');
 const { url } = config;
 
-fastify.post("/api/whatsapp", async (req, res) => {
+fastify.post("/api/whatsapp", (req, res) => {
   try {
     let event = req.body['data_body']['events']['eventType'];
     if (event == "User initiated") {
@@ -15,7 +15,7 @@ fastify.post("/api/whatsapp", async (req, res) => {
         json: true,
         body: sendData
       };
-      await request.post(options, (err, res, body) => {
+      request.post(options, (err, res, body) => {
         if (err) {
           return console.log(err);
         }
