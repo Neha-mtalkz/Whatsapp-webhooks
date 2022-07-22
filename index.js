@@ -1,7 +1,7 @@
 const fastify = require('fastify')({
   logger: true
 })
-
+console.log("hello-world")
 const employeesRoutes = require('./routes/employees');
 employeesRoutes.forEach((route, index) => {
     fastify.route(route)
