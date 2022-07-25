@@ -10,14 +10,13 @@ fastify.post("/api/whatsapp", (req, res) => {
     let event = req.body['data_body']['events']['eventType'];
     //checking eventType is user initiative or not .
     if (event === "User initiated") {
-      //defining the response body .
+      //defining the response body
       let bodyData = {
-        "message": req.body['data_body']['eventContent']['message']['text']['body'],
-        "phone": req.body['data_body']['eventContent']['message']['from'],
+        "message": req.body.data_body.eventContent.message.text.body,
+        "phone": req.body.data_body.eventContent.message.from,
         "source": source,
         "key": key
       }
-      console.log(bodyData)
       const options = {
         url: url,
         json: true,
@@ -28,10 +27,10 @@ fastify.post("/api/whatsapp", (req, res) => {
         if (err) {
           return console.log(err);
         }
-        console.log(`Status: ${res.statusCode}`);
+        console.log(`Status: ${response.statusCode}`);
         console.log(body);
       })
-      return res.send(res.statusCode);
+      return res.send({ status: 200 });
     }
   }
   catch (err) {
