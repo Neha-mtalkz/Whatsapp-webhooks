@@ -5,7 +5,7 @@ const request = require("request");
 const { url, key, source } = require('./config');
 
 //WhatsApp cloud API .
-fastify.post("/api/whatsapp", (req, res) => {
+fastify.post("/api/whatsapp/:chatbot", (req, res) => {
   try {
     let event = req.body['data_body']['events']['eventType'];
     //checking eventType is user initiative or not .
@@ -18,7 +18,7 @@ fastify.post("/api/whatsapp", (req, res) => {
         "key": key
       }
       const options = {
-        url: url,
+        url: url + req.params.chatbot,
         json: true,
         body: bodyData
       };
