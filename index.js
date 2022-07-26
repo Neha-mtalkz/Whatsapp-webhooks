@@ -7,13 +7,13 @@ const { url, key, source } = require('./config');
 //WhatsApp cloud API .
 fastify.post("/api/whatsapp/:chatbot", (req, res) => {
   try {
-    let event = req.body['data_body']['events']['eventType'];
+    let event = req.body.data_body?.events?.eventType;
     //checking eventType is user initiative or not .
     if (event === "User initiated") {
       //defining the response body
       let bodyData = {
-        "message": req.body.data_body.eventContent.message.text.body,
-        "phone": req.body.data_body.eventContent.message.from,
+        "message": req.body.data_body?.eventContent?.message?.text.body,
+        "phone": req.body.data_body?.eventContent?.message?.from,
         "source": source,
         "key": key
       }
@@ -25,15 +25,16 @@ fastify.post("/api/whatsapp/:chatbot", (req, res) => {
       // Whatsapp webhook target API
       request.post(options, (err, response, body) => {
         if (err) {
-          return console.log(err);
+          return err;
         }
-        console.log(`Status: ${response.statusCode}`);
-        console.log(body);
+        fastify.log.info(`Status: ${response.statusCode}`);
+        fastify.log.info(body);
+        return res.send({ status: true });
       })
-      return res.send({ status: 200 });
     }
   }
   catch (err) {
+    fastify.log.error(err)
     return err;
   }
 })
@@ -41,5 +42,5 @@ fastify.post("/api/whatsapp/:chatbot", (req, res) => {
 // Run the server!
 fastify.listen({ port: 3000 }, (err, address) => {
   if (err) throw err
-  console.log(` Server is now listening on ${address}`)
+  fastify.log.info(` Server is now listening on ${address}`)
 })
